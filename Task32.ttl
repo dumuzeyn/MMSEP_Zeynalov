@@ -1,0 +1,27 @@
+@prefix : <http://www.semanticweb.org/rasul/ontologies/2025/11/untitled-ontology-4/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix swrl: <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+#################################################################
+# SWRL Rule: Назначение лекарства с дозировкой
+#################################################################
+
+:Rule_AssignInsulin
+    rdf:type swrl:Imp ;
+    swrl:body (
+        [ swrl:argument1 ?p ; swrl:classPredicate :Пациент ]
+        [ swrl:argument1 ?p ; swrl:argument2 :Диабет_2-ого_типа ; swrl:propertyPredicate :ИмеетДиагноз ]
+        [ swrl:argument1 ?p ; swrl:argument2 ?ind ; swrl:propertyPredicate :ИмеетПоказание ]
+        [ swrl:argument1 ?ind ; swrl:argument2 :Инсулин ; swrl:propertyPredicate :СоответсвуетЛекарство ]
+        [ swrl:argument1 ?p ; swrl:argument2 ?weightInd ; swrl:propertyPredicate :ИмеетВес ]
+        [ swrl:argument1 ?weightInd ; swrl:argument2 ?mass ; swrl:propertyPredicate :Масса_Антона ]
+        [ swrl:argument1 ?m100 ; swrlb:divide(?m100, ?mass, 100) ]
+        [ swrl:argument1 ?dose ; swrlb:multiply(?dose, ?m100, 15) ]
+    ) ;
+    swrl:head (
+        [ swrl:argument1 ?p ; swrl:classPredicate :Назначение ]
+        [ swrl:argument1 ?p ; swrl:argument2 :Инсулин ; swrl:propertyPredicate :СоответсвуетЛекарство ]
+        [ swrl:argument1 ?p ; swrl:argument2 ?dose ; swrl:propertyPredicate :Обьем_лекарства ]
+    ) .
